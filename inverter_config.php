@@ -9,5 +9,6 @@
 	self::$dbuser		=	'dbuser';				// 	your userid
 	self::$dbpassword	=	'dbpassword';			//	your password
 	self::$table		=	'solar_daily_direct';		// 	your table	
-	
+
 ?>
+
