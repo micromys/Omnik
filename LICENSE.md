@@ -3,36 +3,37 @@ Omnik PHP Class : Terms of Use
 
 Running this script(s) is at your own risc/responsibility.
 
-YOU MAY FREELY CHANGE and/or DISTRIBUTED THIS SET OF SCRIPTS BUT DO NOT FORGET TO THANK ALL OTHERS WHO PARTIPATED TO MAKE THIS WORK.
+You may freely change and/or distributed this set of scripts but do not forget to thank all others who partipated to make this work.
 
-ALTHOUGH I WROTE THIS SERIES OF SCRIPTS, I USED IDEAS, ALGORITHMES,etc FROM OTHER DEVELOPERS, GOOGLE, GITHUB, etc.
+Although I wrote this series of scripts, I used ideas, algorithmes,etc from other developers, google, github, etc.
 
-SPECIAL CREDITS to https://github.com/Woutrrr/Omnik-Data-Logger (Wouter van de Zwan) for the python version.
+Special credits to https://github.com/woutrrr/omnik-data-logger (Wouter van de Zwan) for the python version.
 		
-IF YOU PLAN TO SWAP YOUR WIFI MODULE BE VERY CAREFULL :
+If you plan to swap your WIFI module be very careful :
 
-1. 	SWITCH OFF THE POWER/CURRENT AT THE DC- AND AC-side;
-2. 	REPLACE THE MODULE;
-3. 	CHECK THE ANTENNA;
-4. 	SWITCH ON DC AND AC SIDE AND CHECK THE LEDS ON THE WIFI MODULE;
-5. 	RE-CONFIGURE THE WIFI MODULE;
-6. 	DO NOT FORGET TO UPDATE THE OMNIK-PORTAL website with your setting (new serial-numer, but same inverter ID);
-7. 	YOU SHOULD NOT LOSE ANY DATA on the OMNIK_PORTAL website;
+1. 	switch off the power/current at the DC- and AC-side;
+2. 	replace the module;
+3. 	check the antenna;
+4. 	switch on DC and AC side and check the (green!) leds on the WIFI module;
+5. 	re-configure the WIFI module;
+6. 	do not forget to update the omnik-portal website with your setting (new serial-number, but same inverter id);
+7. 	you should not lose any data on the omnik_portal website;
+8.	it is a good practice to backup omnik-portal data (use the export function)
 			
-THESE SCRIPTS ARE TESTED AND RUNNING IN:
+These scripts are tested and running in:
 
 1. 	Windows 8 with Apache 2, PHP 5.3 and MySQL 5.1;
-2. 	UNIX DEBIAN WHEEZY with Apache2 (and Lighttpd), PHP 5.4 and MySQL 5.5.30 on a RASPBERRY PI model B 512Mb;
-3. 	a I386 PC running DEBIAN SQUEEZE with Aapche2, PHP 5.4, MySQL 5.5.30;
+2. 	Unix Debian Wheezy with Aapache2 (and Lighttpd), PHP 5.4 and MySQL 5.5.30 on a raspberry pi model b 512mb;
+3. 	a i386 pc running Debian Squeeze with Apache2, PHP 5.4, MySQL 5.5.30;
 3. 	you can add the script to your crontab either via php cli or 
 4.	run w3m http://localhost/yourwww/inverter_sample.php >>output.html
 5.	w3m is a text-based browser that runs from the command-line
 6.	crontab for windows : windows task scheduler of consider installing http://www.kalab.com/freeware/pycron/pycron.htm
-7.	MAC OS NOT EVEN TESTED, NO PLANS FOR IT AT ALL
+7.	Mac OS not even tested, no plans for it at all
 			
-FEEDBACK may be send via GITHUB (English please)
+feedback may be send via GITHUB (English please)
 		
-I'M NOT RESPONSIBLE FOR ANY HARM DONE BY THIS SCRIPT TO YOUR HARDWARE and /or SOFTWARE CONFIGURATION;
-ALL CLAIMS WILL BE REJECTED/DECLINED;
+I'm not responsible for any harm done by this script to your hardware and /or software configuration;
+all claims will be rejected/declined;
 		
-@COPYRIGHT : V.H. Lemoine
+@Copyright : V.H. Lemoine
