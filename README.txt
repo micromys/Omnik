@@ -29,7 +29,7 @@ inverter_config.php
 Contains MySQL DB parameters to make a DB connection
 
 Change the parameters according to your MySQL environment
-
+ 
 inverter.sql
 ------------
 Contains the database table and trigger definitions
