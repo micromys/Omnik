@@ -1,5 +1,4 @@
 <?php
-
 	/* 
 		sample : 	php-script returns data,
 				put into a mysql tables, 
@@ -36,6 +35,5 @@
 
 	echo $inverter->displaybuffer();
 				
-	//var_dump($inverter);		
-	
+	//var_dump($inverter);			
 ?>
