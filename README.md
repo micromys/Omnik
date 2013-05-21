@@ -17,7 +17,7 @@ inverter_sample.php
 -------------------
 Sample php script to access and read data from the inverter
 
-The script is seld-explaining, comment out some lines to test different parts
+The script is self-explaining, comment out some lines to test different parts
 
 inverter_config.php
 -------------------
