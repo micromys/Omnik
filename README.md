@@ -1,5 +1,8 @@
 PHP Class and Sample
---------------------
+====================
+PHP Class to open and to access the Omnik Inverter and return 'readable' data in different ways.
+
+
 inverter_class.php
 ------------------
 This class is the engine
