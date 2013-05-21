@@ -1,7 +1,7 @@
 Omnik PHP Class : Terms of Use
 =====
 
-Running this script(s) is at your own risc/responsibility. I'm not responsible for any harm done by this script to your hardware and/or software configuration, all claims will be rejected/declined;
+Running this script(s) is at your own risc/responsibility. Any claim for eventually damaging your hardware and/or software configuration will be rejected/declined;
 
 You may freely change and/or distributed this set of scripts but do not forget to thank all others who partipated to make this work.
 
