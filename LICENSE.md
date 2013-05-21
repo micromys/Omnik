@@ -1,7 +1,7 @@
 Omnik PHP Class : Terms of Use
 =====
 
-Running this script(s) is at your own risc/responsibility.
+Running this script(s) is at your own risc/responsibility. I'm not responsible for any harm done by this script to your hardware and/or software configuration, all claims will be rejected/declined;
 
 You may freely change and/or distributed this set of scripts but do not forget to thank all others who partipated to make this work.
 
@@ -31,9 +31,6 @@ These scripts are tested and running in:
 6.	crontab for windows : windows task scheduler of consider installing http://www.kalab.com/freeware/pycron/pycron.htm
 7.	Mac OS not even tested, no plans for it at all
 			
-feedback may be send via GITHUB (English please)
-		
-I'm not responsible for any harm done by this script to your hardware and /or software configuration;
-all claims will be rejected/declined;
-		
+Feedback may be send via GITHUB (English please)
+				
 @Copyright : V.H. Lemoine
