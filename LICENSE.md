@@ -34,4 +34,3 @@ These scripts are tested and running in:
 Feedback may be send via GITHUB (English please)
 				
 @Copyright : V.H. Lemoine
-
