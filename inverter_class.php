@@ -61,7 +61,7 @@
 					
 					displaybuffer()	->	returns HTML formatted table containing the databuffer in string and hex format
 					
-					message()	->	display html formatted table containing error information;
+					message()	->	returns html formatted table containing error information;
 						
 					other		-> 	str2hex(), hex2str(),str2dec() : see inline comments
 					
@@ -102,7 +102,7 @@
 			$html	.=	"<tr><td>Errorcode</td><td>".$this->errorcode."</td></tr>";
 			$html	.=	"<tr><td>Error</td><td>".$this->error."</td></tr>";
 			$html	.=	"</table>";
-			echo $html;		
+			return $html;		
 		}
 			
 		function hex2str($hex)							// convert readable hexstring to chracter string i.e. "41424344" => "ABCD"
@@ -349,10 +349,10 @@
 
 			$f=false;															// init as false;
 			
-			// stream_socket_client is used, fsockopen can also be used but has less options; DO NOT USE socket_create because, it does not work properly under UNIX
+			// stream_socket_client is used, fsockopen can also be used but has less options; DO NOT USE socket_create because it does not work properly under UNIX
 			// Both stream_socket_client and fsockopen work on UNIX and WINDOWS (MAC OS not tested!)
 			
-			$this->socket=@stream_socket_client("tcp://".$this->ipaddress.":".$this->tcpport,$this->errorcode,$this->error, 5);	// setup socket
+			$this->socket=@stream_socket_client("tcp://".$this->ipaddress.":".$this->tcpport,$this->errorcode,$this->error, 3);	// setup socket, timeout 3 sec
 			
 			if ($this->socket===false) 												// if something fails return error message
 			{
@@ -368,10 +368,10 @@
 					if ($this->databuffer!==false)
 					{
 						$this->bytesreceived=strlen($this->databuffer);				// get bytes received length
-						if ($this->bytesreceived>90)					// if enough data is returned
+						if ($this->bytesreceived>90)								// if enough data is returned
 						{
-							$this->data();							// split databuffer into structure
-							$f=true;
+							$this->data();										// split databuffer into structure
+							$f=true;											// ok, ready to return
 						}
 						else
 						{
@@ -380,7 +380,7 @@
 							$this->step="Databuffer error";
 						}
 					}
-					@fclose($this->socket);							// close socket (ignore warning)
+					@fclose($this->socket);										// close socket (ignore warning)
 				}
 			}	
 			return $f;			
