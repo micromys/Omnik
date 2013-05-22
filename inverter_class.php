@@ -377,8 +377,14 @@
 						{
 							$this->errorcode=4;
 							$this->error="Incorrect data (length=$this->bytesreceived) returned; expected 99 bytes";	
-							$this->step="Databuffer error";
+							$this->step="databuffer error";
 						}
+					}
+					else
+					{
+						$this->errorcode=4;
+						$this->error="Error reading data from Inverter";	
+						$this->step="fread";
 					}
 					@fclose($this->socket);										// close socket (ignore warning)
 				}
