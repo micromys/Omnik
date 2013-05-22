@@ -60,8 +60,12 @@
 					power()		->	if called as $o->power() or $o->power("JSON") it returns the JSON string, if called as $o->power("ARRAY") it returns the $o->PV array as an array
 					
 					displaybuffer()	->	returns HTML formatted table containing the databuffer in string and hex format
+					
+					message()	->	display html formatted table containing error information;
 						
-					other		-> 	str2hex(), hex2str(),str2dec(), message() : see inline comments
+					other		-> 	str2hex(), hex2str(),str2dec() : see inline comments
+					
+					errors		->	each function returns true or false, $o->errorcode;$o->error and $o->Method contains error information
 		______________________________________________________________________________________________________________________________________________________	
 
 	*/
@@ -90,9 +94,15 @@
 		private	static	$dbuser;						// db user
 		private	static	$dbpassword;					// db password
 		
-		function message($type,$errorcode,$error)			// echo message
+		function message()								// echo message
 		{
-			echo date('Y-m-d H:i:s')." : $type - $errorcode : $error<br/>";
+			$html	=	"<style>td {border:1px black solid;font-size:11pt;font-weight:bold;padding:5px}</style><table style='border-collapse:collapse;min-width:30%;'>";
+			$html	.=	"<tr><td>Method</td><td>".$this->Method."</td></tr>";
+			$html	.=	"<tr><td>Step</td><td>".$this->step."</td></tr>";
+			$html	.=	"<tr><td>Errorcode</td><td>".$this->errorcode."</td></tr>";
+			$html	.=	"<tr><td>Error</td><td>".$this->error."</td></tr>";
+			$html	.=	"</table>";
+			echo $html;		
 		}
 			
 		function hex2str($hex)							// convert readable hexstring to chracter string i.e. "41424344" => "ABCD"
@@ -128,6 +138,11 @@
 
 		public function __construct($ipaddress='',$tcpport=8899,$serialnumber=-1)
 		{
+			$this->Method=__METHOD__;
+			$this->error='';
+			$this->errorcode=0;
+			$this->step='';
+			
 			if ($ipaddress!='' and $serialnumber!=-1 and $tcpport>0)	// check if IPv4 address, port and s/n are supplied
 			{		
 				$this->ipaddress	=	$ipaddress;
@@ -166,7 +181,6 @@
 			{
 				$this->errorcode=4;
 				$this->error="Init parameters ipaddress : '$ipaddress' and/or tcp-port : '$tcpport' and/or serialnumber : '$serialnumber' are incorrect";
-				$this->message("__construct",$this->errorcode,$this->error);
 				return false;
 			}	
 			
@@ -175,6 +189,11 @@
 		
 		public function displaybuffer()								// for debugging : create html formatted table that display the databuffer in str and hex format by offset, 
 		{
+			$this->Method=__METHOD__;
+			$this->error='';
+			$this->errorcode=0;
+			$this->step='';
+			
 			$html	=	"<style>td {border:1px black solid;width:30px;text-align:center}</style><table style='border:1px black solid;border-collapse:collapse'>";
 			$html	.=	"<tr><td colspan=33 style='text-align:center;font-size:16pt'>Databuffer returned from Inverter at ".$this->PV['Datum']."</td></tr>";
 			//$html	.=	"<tr><td colspan=33 style='text-align:center;font-size:12pt'><pre>".$this->databuffer."</pre></td></tr>";
@@ -209,6 +228,11 @@
 		
 		public function data()
 		{
+			$this->Method=__METHOD__;
+			$this->error='';
+			$this->errorcode=0;
+			$this->step='';
+
 			$this->PV['Datum'] = date('Y-m-d H:i:s');					// set timestamp, Year, Month, Day, Hour
 			$this->PV['Inverter'] = substr($this->databuffer,15,16);		// get inverterID
 			$this->getShort('temperature',31,10);					// get Temperature
@@ -226,6 +250,11 @@
 					
 		private function getLong($type='totalkWh',$start=71,$divider=10)				// get Long 
 		{
+			$this->Method=__METHOD__;
+			$this->error='';
+			$this->errorcode=0;
+			$this->step='';
+
 			$t=$this->str2dec(substr($this->databuffer,$start,4));					// convert 4 bytes to decimal
 			$this->PV["$type"] = $t/$divider;									// return value/divder
 			return;		
@@ -233,6 +262,11 @@
 
 		private function getShort($type='PAC',$start=59,$divider=10,$iterate=0)			// return (optionally repeating) values
 		{
+			$this->Method=__METHOD__;
+			$this->error='';
+			$this->errorcode=0;
+			$this->step='';
+
 			if ($iterate==0)													// 0 = no repeat, return one value
 			{
 				$t=$this->str2dec(substr($this->databuffer,$start,2));				// convert to decimal 2 bytes
@@ -252,13 +286,18 @@
 	
 		function insert()
 		{
+			$this->Method=__METHOD__;
+			$this->error='';
+			$this->errorcode=0;
+			$this->step='';
+
 			require_once('inverter_config.php'); 												// get db credentials
 			@$this->mysqli = new mysqli(self::$host,self::$dbuser,self::$dbpassword,self::$database);		// set resource and connect
 			if ($this->mysqli->connect_error)													// if any errors return
 			{
 				$this->errorcode=$this->mysqli->connect_errno;
 				$this->error=$this->mysqli->connect_error;
-				$this->message("MySQL Connect",$this->errorcode,$this->error);
+				$this->step="MySQL - Connect";
 				return false;
 			}
 			
@@ -267,7 +306,7 @@
 			{
 				$this->errorcode=4;
 				$this->error=self::$table." does not exist; no data stored";
-				$this->message("SHOW TABLE",$this->errorcode,$this->error);
+				$this->step="MySQL - SHOW TABLE";
 				return false;
 			}
 
@@ -284,9 +323,8 @@
 			if ($this->mysqli->errno>0)														// test for errors, return errors if any error > 0
 			{
 				$this->errorcode=$this->mysqli->errno;
-				$this->error=$this->mysqli->error;
-				$this->errorstmt=$sql;
-				$this->message("MYSQL INSERT",$this->errorcode,$this->error.'-'.$this-errorstmt);
+				$this->error=$this->mysqli->error.' - '.$sql;
+				$this->step="MYSQL - INSERT";
 				return false;
 			}
 			$this->mysqli->close();															// close db
@@ -295,12 +333,20 @@
 	
 		public function power($format="JSON")										// return data from inverter either as JSON string or as array
 		{
+			$this->Method=__METHOD__;
+			$this->error='';
+			$this->errorcode=0;
+			$this->step='';
 			return ($format=="JSON") ? $this->JSON : $this->PV;							// return JSON String if format="JSON" else array		
 		}
 				
 		public function read()													// read data from inverter
 		{
-			$this->error="";$this->errorcode=0;										// init errorcode and error (string);
+			$this->Method=__METHOD__;
+			$this->error='';
+			$this->errorcode=0;
+			$this->step='';
+
 			$f=false;															// init as false;
 			
 			// stream_socket_client is used, fsockopen can also be used but has less options; DO NOT USE socket_create because, it does not work properly under UNIX
@@ -310,7 +356,7 @@
 			
 			if ($this->socket===false) 												// if something fails return error message
 			{
-				$this->message("stream_socket_client",$this->errorcode,$this->error);		// display error message 
+				$this->step="stream_socket_client";								
 			}
 			else
 			{
@@ -331,7 +377,7 @@
 						{
 							$this->errorcode=4;
 							$this->error="Incorrect data (length=$this->bytesreceived) returned; expected 99 bytes";	
-							$this->message("Databuffer error",$this->errorcode,$this->error);
+							$this->step="Databuffer error";
 						}
 					}
 					@fclose($this->socket);							// close socket (ignore warning)

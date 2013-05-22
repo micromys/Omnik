@@ -28,7 +28,6 @@
 	}
 		
 	//$p=$inverter->power("Array");
-	//$inverter->message("Status",$p['Inverter'], $p['pac1'].' - '.$p['todaykWh'].' - '.$p['totalkWh']);
 
 	//$p=$inverter->power();
 	//echo $p;
