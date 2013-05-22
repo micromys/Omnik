@@ -28,7 +28,7 @@ These scripts are tested and running in:
 3. 	you can add the script to your UNIX crontab either via php cli or 
 4.	run w3m http://localhost/yourwww/inverter_sample.php >>output.html
 5.	w3m is a text-based browser that runs from the command-line
-6.	crontab for windows : use windows task scheduler of consider installing http://www.kalab.com/freeware/pycron/pycron.htm
+6.	crontab for windows : use windows task scheduler or consider installing http://www.kalab.com/freeware/pycron/pycron.htm
 7.	Mac OS not even tested, no plans for it at all
 			
 Feedback may be send via GITHUB (English please)
