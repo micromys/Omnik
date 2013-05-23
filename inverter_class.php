@@ -96,8 +96,8 @@
 		
 		function message()								// echo message
 		{
-			$html	=	"<style>td {border:1px black solid;font-size:11pt;font-weight:bold;padding:5px}</style><table style='border-collapse:collapse;min-width:30%;'>";
-			$html	.=	"<tr><td>Method</td><td>".$this->Method."</td></tr>";
+			$html	=	"<style>td {border:1px black solid;font-size:11pt;font-weight:bold;padding:5px;text-align:left}</style><table style='border-collapse:collapse;min-width:30%;'>";
+			$html	.=	"<tr><td>Method</td><td>".date('Y-m-d- H:i:s')." - ".$this->Method."</td></tr>";
 			$html	.=	"<tr><td>Step</td><td>".$this->step."</td></tr>";
 			$html	.=	"<tr><td>Errorcode</td><td>".$this->errorcode."</td></tr>";
 			$html	.=	"<tr><td>Error</td><td>".$this->error."</td></tr>";
@@ -194,7 +194,7 @@
 			$this->errorcode=0;
 			$this->step='';
 			
-			$html	=	"<style>td {border:1px black solid;width:30px;text-align:center}</style><table style='border:1px black solid;border-collapse:collapse'>";
+			$html	=	"<style>td {border:1px black solid;width:30px;padding:5px;text-align:left}</style><table style='border:1px black solid;border-collapse:collapse'>";
 			$html	.=	"<tr><td colspan=33 style='text-align:center;font-size:16pt'>Databuffer returned from Inverter at ".$this->PV['Datum']."</td></tr>";
 			//$html	.=	"<tr><td colspan=33 style='text-align:center;font-size:12pt'><pre>".$this->databuffer."</pre></td></tr>";
 			//$html	.=	"<tr><td colspan=33 style='text-align:center;font-size:12pt'><pre>".$this->str2hex($this->databuffer)."</pre></td></tr>";
