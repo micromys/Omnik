@@ -22,6 +22,10 @@ Sample php script to access and read data from the inverter
 
 The script is self-explaining, comment out some lines to test different parts
 
+inverter_layout.html
+------------
+description of databuffer returned from inverter
+
 inverter_config.php
 -------------------
 Contains MySQL DB parameters to make a DB connection
