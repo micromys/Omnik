@@ -75,7 +75,6 @@
 					errors		->	each function returns true or false, $o->errorcode;$o->error and $o->Method contains error information
 					
 		databuffer layout			->	see inverter_layout.html
-
 		______________________________________________________________________________________________________________________________________________________	
 
 	*/
