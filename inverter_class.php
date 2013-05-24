@@ -41,8 +41,15 @@
 					
 		CAUTION	:	Supplying incorrect ipaddress, port and/or serialnumber might cause 'hanging' the program (until php limits are reached), 
 					be cautious in supplying correct input parameters
-									
-		Functions	:	__construct()	->	initialize class, i.e. $o = new Inverter('your-ipadress',8899,your-serial-number);		
+
+		Syntax 	:	$o = new Inverter('ip-ipadress',8899,serial-number[,inverterID])
+		
+					ip-addres		-> 	ip-address of WIFI Module
+					8899			-> 	tcp-port of WIFI module (module should have port 80 and 8899)
+					serial-number	-> 	serial-number of WIFI module
+					inverterID		->	optional Inverter ID 16 chars and is used to compare it with the data read
+							
+		Functions	:	__construct()	->	initialize class, i.e. $o = new Inverter('ip-adress',8899,serial-number[,inverterID]);		
 								->	the __construct function creates a unique identication string to determine the Inverter
 								
 					read()		->	creates socket connection using ip-adress and port
@@ -66,6 +73,9 @@
 					other		-> 	str2hex(), hex2str(),str2dec() : see inline comments
 					
 					errors		->	each function returns true or false, $o->errorcode;$o->error and $o->Method contains error information
+					
+		databuffer layout			->	see inverter_layout.html
+
 		______________________________________________________________________________________________________________________________________________________	
 
 	*/
@@ -96,7 +106,7 @@
 		
 		function message()								// echo message
 		{
-			$html	=	"<style>td {border:1px black solid;font-size:11pt;font-weight:bold;padding:5px;text-align:left}</style><table style='border-collapse:collapse;min-width:30%;'>";
+			$html	=	"<style>td {border:1px black solid;font-size:11pt;font-weight:bold;padding:5px;text-align:left}</style><table style='border-collapse:collapse;min-width:50%;'>";
 			$html	.=	"<tr><td>Method</td><td>".date('Y-m-d- H:i:s')." - ".$this->Method."</td></tr>";
 			$html	.=	"<tr><td>Step</td><td>".$this->step."</td></tr>";
 			$html	.=	"<tr><td>Errorcode</td><td>".$this->errorcode."</td></tr>";
@@ -135,19 +145,25 @@
 			}	
 			return $dec;								// return decimal
 		}
-
-		public function __construct($ipaddress='',$tcpport=8899,$serialnumber=-1)
+		
+		private function clearError($method)				// initalize error block
 		{
-			$this->Method=__METHOD__;
+			$this->Method=$method;
 			$this->error='';
 			$this->errorcode=0;
-			$this->step='';
+			$this->step='';		
+		}
+
+		public function __construct($ipaddress='',$tcpport=8899,$serialnumber=-1,$inverterID='')
+		{
+			$this->clearError(__METHOD__);
 			
 			if ($ipaddress!='' and $serialnumber!=-1 and $tcpport>0)	// check if IPv4 address, port and s/n are supplied
 			{		
 				$this->ipaddress	=	$ipaddress;
 				$this->tcpport		=	$tcpport;
 				$this->serialnumber	=	$serialnumber;
+				$this->inverterID	=	$inverterID;
 				
 				/* 	build inverter identification string to be sent to the inverter 
 				
@@ -179,7 +195,7 @@
 			}
 			else
 			{
-				$this->errorcode=4;
+				$this->errorcode=1004;
 				$this->error="Init parameters ipaddress : '$ipaddress' and/or tcp-port : '$tcpport' and/or serialnumber : '$serialnumber' are incorrect";
 				return false;
 			}	
@@ -189,10 +205,7 @@
 		
 		public function displaybuffer()								// for debugging : create html formatted table that display the databuffer in str and hex format by offset, 
 		{
-			$this->Method=__METHOD__;
-			$this->error='';
-			$this->errorcode=0;
-			$this->step='';
+			$this->clearError(__METHOD__);
 			
 			$html	=	"<style>td {border:1px black solid;width:30px;padding:5px;text-align:left}</style><table style='border:1px black solid;border-collapse:collapse'>";
 			$html	.=	"<tr><td colspan=33 style='text-align:center;font-size:16pt'>Databuffer returned from Inverter at ".$this->PV['Datum']."</td></tr>";
@@ -226,15 +239,21 @@
 			return $html;										// return result		
 		}
 		
-		public function data()
+		private function data()
 		{
-			$this->Method=__METHOD__;
-			$this->error='';
-			$this->errorcode=0;
-			$this->step='';
-
+			$this->clearError(__METHOD__);
+			
 			$this->PV['Datum'] = date('Y-m-d H:i:s');					// set timestamp, Year, Month, Day, Hour
 			$this->PV['Inverter'] = substr($this->databuffer,15,16);		// get inverterID
+			
+			if ($this->inverterID!='' and $this->PV['Inverter']!=$this->inverterID)
+			{
+				$this->errorcode=1016;
+				$this->error="InverterID: $this->inverterID does not match with returned InverterID: ".$this->PV['Inverter'];
+				$this->step="check InverterID";
+				return false;
+			}
+			
 			$this->getShort('temperature',31,10);					// get Temperature
 			$this->getShort('vpv',33,10,3);							// get VPV
 			$this->getShort('ipv',39,10,3);							// get IPV
@@ -244,32 +263,28 @@
 			$this->getShort('pac',59,1,3);							// get  current Power
 			$this->getShort('todaykWh',69,100);						// get EToday in Watt
 			$this->getLong('totalkWh',71,10);						// get ETotal in kW
-			$this->JSON	=	json_encode($this->PV);				// create JSON string for later (ie. javascript)
-			return;
+			//$this->getLong('htotalkWh',75,1);						// get hTotal in kW
+			//$this->getShort('unknown96',96,1);					// get unknown xx in kW
+			$this->JSON = json_encode($this->PV);					// create JSON string for later (ie. javascript)
+			return true;
 		}
 					
 		private function getLong($type='totalkWh',$start=71,$divider=10)				// get Long 
 		{
-			$this->Method=__METHOD__;
-			$this->error='';
-			$this->errorcode=0;
-			$this->step='';
+			$this->clearError(__METHOD__);
 
-			$t=$this->str2dec(substr($this->databuffer,$start,4));					// convert 4 bytes to decimal
-			$this->PV["$type"] = $t/$divider;									// return value/divder
+			$t=floatval($this->str2dec(substr($this->databuffer,$start,4)));				// convert 4 bytes to decimal
+			$this->PV["$type"] =$t/$divider;									// return value/divder
 			return;		
 		}
 
 		private function getShort($type='PAC',$start=59,$divider=10,$iterate=0)			// return (optionally repeating) values
 		{
-			$this->Method=__METHOD__;
-			$this->error='';
-			$this->errorcode=0;
-			$this->step='';
+			$this->clearError(__METHOD__);
 
 			if ($iterate==0)													// 0 = no repeat, return one value
 			{
-				$t=$this->str2dec(substr($this->databuffer,$start,2));				// convert to decimal 2 bytes
+				$t=floatval($this->str2dec(substr($this->databuffer,$start,2)));				// convert to decimal 2 bytes
 				$this->PV["$type"] = ($t==65535) ? 0 : $t/$divider;					// if 0xFFFF return 0 else value/divder		
 			}
 			else
@@ -277,19 +292,16 @@
 				$iterate=min($iterate,3);										// max iterations = 3
 				for ($i=1;$i<=$iterate;$i++)
 				{				
-					$t=$this->str2dec(substr($this->databuffer,$start+2*($i-1),2));		// convert two bytes from databuffer to decimal
+					$t=floatval($this->str2dec(substr($this->databuffer,$start+2*($i-1),2)));	// convert two bytes from databuffer to decimal
 					$this->PV["$type$i"] = ($t==65535) ? 0 : $t/$divider;				// if 0xFFFF return 0 else value/divder
 				}
 			}
 			return;
 		}
 	
-		function insert()
+		public function insert()
 		{
-			$this->Method=__METHOD__;
-			$this->error='';
-			$this->errorcode=0;
-			$this->step='';
+			$this->clearError(__METHOD__);
 
 			require_once('inverter_config.php'); 												// get db credentials
 			@$this->mysqli = new mysqli(self::$host,self::$dbuser,self::$dbpassword,self::$database);		// set resource and connect
@@ -304,7 +316,7 @@
 			$sql=$this->mysqli->query("SHOW TABLES LIKE '".self::$table."' ");							// query table existence
 			if ($sql->num_rows==0)															// if not generate error and return false;	
 			{
-				$this->errorcode=4;
+				$this->errorcode=1020;
 				$this->error=self::$table." does not exist; no data stored";
 				$this->step="MySQL - SHOW TABLE";
 				return false;
@@ -333,19 +345,14 @@
 	
 		public function power($format="JSON")										// return data from inverter either as JSON string or as array
 		{
-			$this->Method=__METHOD__;
-			$this->error='';
-			$this->errorcode=0;
-			$this->step='';
+			$this->clearError(__METHOD__);
+
 			return ($format=="JSON") ? $this->JSON : $this->PV;							// return JSON String if format="JSON" else array		
 		}
 				
 		public function read()													// read data from inverter
 		{
-			$this->Method=__METHOD__;
-			$this->error='';
-			$this->errorcode=0;
-			$this->step='';
+			$this->clearError(__METHOD__);
 
 			$f=false;															// init as false;
 			
@@ -370,19 +377,21 @@
 						$this->bytesreceived=strlen($this->databuffer);				// get bytes received length
 						if ($this->bytesreceived>90)								// if enough data is returned
 						{
-							$this->data();										// split databuffer into structure
-							$f=true;											// ok, ready to return
+							if ($this->data()===true)								// split databuffer into structure
+							{
+								$f=true;										// ok, ready to return
+							}
 						}
 						else
 						{
-							$this->errorcode=4;
+							$this->errorcode=1008;
 							$this->error="Incorrect data (length=$this->bytesreceived) returned; expected 99 bytes";	
 							$this->step="databuffer error";
 						}
 					}
 					else
 					{
-						$this->errorcode=4;
+						$this->errorcode=1012;
 						$this->error="Error reading data from Inverter";	
 						$this->step="fread";
 					}
