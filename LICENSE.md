@@ -23,7 +23,7 @@ If you plan to swap your WIFI module be very carefully:
 These scripts are tested and running in:
 
 1. 	Windows 8 with Apache 2, PHP 5.3 and MySQL 5.1;
-2. 	Unix Debian Wheezy with Aapache2 (and Lighttpd), PHP 5.4 and MySQL 5.5.30 on a raspberry pi model b 512mb;
+2. 	Unix Debian Wheezy with Apache2 (and Lighttpd), PHP 5.4 and MySQL 5.5.30 on a raspberry pi model b 512mb;
 3. 	a i386 pc running Debian Squeeze with Apache2, PHP 5.4, MySQL 5.5.30;
 3. 	you can add the script to your UNIX crontab either via php cli or 
 4.	run w3m http://localhost/yourwww/inverter_sample.php >>output.html
