@@ -29,7 +29,8 @@ These scripts are tested and running in:
 4.	run w3m http://localhost/yourwww/inverter_sample.php >>output.html
 5.	w3m is a text-based browser that runs from the command-line
 6.	crontab for windows : use windows task scheduler or consider installing http://www.kalab.com/freeware/pycron/pycron.htm
-7.	Mac OS not even tested, no plans for it at all
+7. Attention : Reading the 8899 port in intervals of less than 2 or 3 seconds might cause a buffer returned with only x'FF' values or other undetermined values. Normally 5 seconds or higher works fine
+8.	Mac OS not even tested, no plans for it at all
 			
 Feedback may be send via GITHUB (English please)
 				

@@ -22,7 +22,8 @@
 			3. 	you can add the script to your crontab either via php cli or 
 			4.	w3m (w3m http://localhost/yourwww/inverter_sample.php >>output.html), where output (if any) is added to output.html (w3m is a text-based browser that runs from the command-line)
 			5.	crontab for windows : consider installing http://www.kalab.com/freeware/pycron/pycron.htm (looks like unix crontab) or use your task-scheduler
-			6.	MAC OS NOT EVEN TESTED, NO PLANS FOR IT AT ALL
+			6.	Attention : Reading the 8899 port in intervals of less than 2 or 3 seconds might cause a buffer returned with only x'FF' values or other undetermined values. Normally 5 seconds or higher works fine
+			7.	MAC OS NOT EVEN TESTED, NO PLANS FOR IT AT ALL
 			
 		g.	FEEDBACK may be send via GITHUB or info@micromys.nl	(English or Dutch please)
 		
