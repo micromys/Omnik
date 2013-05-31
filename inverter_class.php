@@ -98,6 +98,7 @@
 		//		see inverter_config.php for setting
 		private 	static	$database;					// database 
 		private	static	$table;						// table
+		private	static	$logtable;						// logtable
 		private	static	$host;						// host
 		private	static	$port;						// host port of mysql db
 		private	static	$dbtype;						// not used
@@ -259,7 +260,7 @@
 			$this->getShort('ipv',39,10,3);							// get IPV
 			$this->getShort('iac',45,10,3);							// get Ampere	
 			$this->getShort('vac',51,10,3);							// get Volt Ampere	
-			$this->getShort('fac',57,100);							// get ...
+			$this->getShort('fac',57,100,3);							// get ...
 			$this->getShort('pac',59,1,3);							// get  current Power
 			$this->getShort('todaykWh',69,100);						// get EToday in Watt
 			$this->getLong('totalkWh',71,10);						// get ETotal in kW
@@ -278,7 +279,7 @@
 			return;		
 		}
 
-		private function getShort($type='PAC',$start=59,$divider=10,$iterate=0)			// return (optionally repeating) values
+		private function getShort($type='pac',$start=59,$divider=10,$iterate=0)			// return (optionally repeating) values
 		{
 			$this->clearError(__METHOD__);
 
@@ -289,10 +290,16 @@
 			}
 			else
 			{
+				$offset=2;
+				$type=strtolower($type);
+				if ($type=="pac"or $type=="fac")
+				{
+					$offset=4;
+				}
 				$iterate=min($iterate,3);										// max iterations = 3
 				for ($i=1;$i<=$iterate;$i++)
 				{				
-					$t=floatval($this->str2dec(substr($this->databuffer,$start+2*($i-1),2)));	// convert two bytes from databuffer to decimal
+					$t=floatval($this->str2dec(substr($this->databuffer,$start+$offset*($i-1),2)));	// convert two bytes from databuffer to decimal
 					$this->PV["$type$i"] = ($t==65535) ? 0 : $t/$divider;				// if 0xFFFF return 0 else value/divder
 				}
 			}

@@ -2,6 +2,15 @@ PHP Class and Sample
 ====================
 PHP Class to open and to access the Omnik Inverter and return 'readable' data in different ways.
 
+Changes 2013-05-31
+------------------
+1. BEFORE IMPLEMENTING THE NEW CLASS PLEASE UPDATE THE DATABASE TABLE, SEE inverter.sql
+2. Corrected a problem with pac1,pac2,pac3,fac1,fac2,fac3; pac1 & fac1 (was fac) were correct, pac2,fac2,pac3 & fac3 are now correct too
+3. inverter_layout.html modified due to reflect correct data pac and fac
+4. htotalkWh added (will be implemented in next version) 
+5. database layout changed, fac changed to fac1, fac2 and fac3 added, see inverter.sql
+6. class updated to reflect pac and fac changes
+7. working on undetermined part in layout
 
 inverter_class.php
 ------------------
@@ -22,7 +31,7 @@ Sample php script to access and read data from the inverter
 
 The script is self-explaining, comment out some lines to test different parts
 
-inverter_layout.html
+inverter_layout.html (HTML format)
 ------------
 description of databuffer returned from inverter
 
