@@ -2,6 +2,13 @@ PHP Class and Sample
 ====================
 PHP Class to open and to access the Omnik Inverter and return 'readable' data in different ways.
 
+Changes 2013-06-05
+------------------
+1. BEFORE IMPLEMENTING THE NEW CLASS PLEASE UPDATE THE DATABASE TABLE, SEE inverter.sql
+2. Implemented totalHours (changed from htotalkWh), totalHours is hours the inverter is running since last reset
+3. database table solar_power extended and changed from INNODB to MEMORY (to speed up access)
+4. trigger on solar_daily_direct changed to update solar_power table
+
 Changes 2013-05-31
 ------------------
 1. BEFORE IMPLEMENTING THE NEW CLASS PLEASE UPDATE THE DATABASE TABLE, SEE inverter.sql

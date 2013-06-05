@@ -48,7 +48,7 @@ CREATE TABLE `solar_daily_direct` (
   `time` varchar(24) DEFAULT NULL,
   `todaykWh` decimal(9,2) NOT NULL DEFAULT '0.00' COMMENT 'PV Today',
   `totalkWh` decimal(9,2) NOT NULL DEFAULT '0.00' COMMENT 'PV Total',
-  `htotalkWh` decimal(9,2) NOT NULL DEFAULT '0.00' COMMENT 'hTotal',
+  `totalHours` int(9) unsigned NOT NULL DEFAULT '0' COMMENT 'Total Hours since last reset',
   PRIMARY KEY (`ID`),
   KEY `Datum` (`Datum`) USING BTREE,
   KEY `YYMMDDHH` (`YY`,`MM`,`DD`,`HH`) USING BTREE
@@ -60,13 +60,19 @@ CREATE TABLE `solar_daily_direct` (
 DROP TABLE IF EXISTS `solar_power`;
 
 CREATE TABLE `solar_power` (
-  `ID` char(4) NOT NULL DEFAULT 'OOAK',
+  `ID` char(5) NOT NULL DEFAULT 'OOAK',
   `Timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `pid` int(10) unsigned NOT NULL DEFAULT '0',
   `pac1` decimal(7,2) NOT NULL DEFAULT '0.00',
   `todaykWh` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `thisMonthkWh` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `thisYearkWh` decimal(9,2) NOT NULL DEFAULT '0.00',
   `totalkWh` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `totalHours` int(9) unsigned NOT NULL DEFAULT '0',
+  `totalkWh12` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `temperature` decimal(7,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MEMORY DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of solar_power : ADD THIS RECORD !!!!
@@ -80,7 +86,7 @@ set new.YY=Year(curdate());
 set new.MM=Month(curdate());
 set new.DD=Day(curdate());
 set new.HH=Hour(curtime());
-update solar_power set pac1=new.pac1, todaykWh=new.todaykWh, totalkWh=new.totalkWh where ID='OOAK';
+insert into omnik_power (ID,pac1, todaykWh, totalkWh,totalHours,temperature) values('OOAK',new.pac1,new.todaykWh,new.totalkWh,new.totalHours,new.temperature) on duplicate key update pac1=new.pac1, todaykWh=new.todaykWh,totalkWh=new.totalkWh,totalHours=new.totalHours,temperature=new.temperature;
 end
 ;;
 DELIMITER ;

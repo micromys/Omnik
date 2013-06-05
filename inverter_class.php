@@ -264,8 +264,7 @@
 			$this->getShort('pac',59,1,3);							// get  current Power
 			$this->getShort('todaykWh',69,100);						// get EToday in Watt
 			$this->getLong('totalkWh',71,10);						// get ETotal in kW
-			//$this->getLong('htotalkWh',75,1);						// get hTotal in kW
-			//$this->getShort('unknown96',96,1);					// get unknown xx in kW
+			$this->getLong('totalHours',75,1);						// get Total hours since last reset
 			$this->JSON = json_encode($this->PV);					// create JSON string for later (ie. javascript)
 			return true;
 		}
