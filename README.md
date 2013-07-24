@@ -4,7 +4,7 @@ PHP Class to open and to access the Omnik Inverter and return 'readable' data in
 
 PERFORMANCE ISSUE
 -----------------
-Whenever you read from the wifi module you might run into timeout conditions when also data is sent to the portal website, especially when the portal is performing poor causing long response times.
+Whenever you read from the wifi module you might run into timeout conditions when also data is sent to the portal website, especially when the portal is performing poor causing long response times. This would result in time-out conditions.
 
 Changes 2013-06-05
 ------------------
