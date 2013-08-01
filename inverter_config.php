@@ -9,6 +9,6 @@
 	self::$dbuser		=	'dbuser';				// 	your userid
 	self::$dbpassword	=	'dbpassword';			//	your password
 	self::$table		=	'solar_daily_direct';		// 	your table	
-	self::$logtable		=	'omnik_logtable';		// 	will be implemented in the next version
+	self::$logtable		=	'solar_logtable';		// 	will be implemented in the next version
 
 ?>
