@@ -12,7 +12,13 @@
 
 */
 
--- ----------------------------
+-- Create database 
+DROP DATABASE IF EXISTS solar;
+CREATE DATABASE IF NOT EXISTS solar CHARACTER SET = utf8 COLLATE  = utf8_general_ci;
+
+USE solar;
+-- ---------------------------
+
 -- Table structure for `solar_daily_direct`
 -- ----------------------------
 
@@ -77,7 +83,11 @@ CREATE TABLE `solar_power` (
 -- ----------------------------
 -- Records of solar_power : ADD THIS RECORD !!!!
 -- ----------------------------
+<<<<<<< HEAD
 INSERT INTO `solar_power` (ID,`Timestamp`,pid,pac1,todaykWh) VALUES ('OOAK', '2012-12-31 12:00:00', '1.00', '1.00', '1.00');
+=======
+INSERT INTO `solar_power` (ID) VALUES ('OOAK');
+>>>>>>> Update 2013-08-01
 
 DROP TRIGGER IF EXISTS `inverter_insert`;
 DELIMITER ;;
@@ -86,7 +96,11 @@ set new.YY=Year(curdate());
 set new.MM=Month(curdate());
 set new.DD=Day(curdate());
 set new.HH=Hour(curtime());
+<<<<<<< HEAD
 insert into  solar_power (ID,pac1, todaykWh, totalkWh,totalHours,temperature) values('OOAK',new.pac1,new.todaykWh,new.totalkWh,new.totalHours,new.temperature) on duplicate key update pac1=new.pac1, todaykWh=new.todaykWh,totalkWh=new.totalkWh,totalHours=new.totalHours,temperature=new.temperature;
+=======
+insert into solar_power (ID,pac1, todaykWh, totalkWh,totalHours,temperature) values('OOAK',new.pac1,new.todaykWh,new.totalkWh,new.totalHours,new.temperature) on duplicate key update pac1=new.pac1, todaykWh=new.todaykWh,totalkWh=new.totalkWh,totalHours=new.totalHours,temperature=new.temperature;
+>>>>>>> Update 2013-08-01
 end
 ;;
 DELIMITER ;
