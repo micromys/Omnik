@@ -30,7 +30,7 @@
 			8.	MAC OS NOT EVEN TESTED, NO PLANS FOR IT AT ALL
 			9. 	Not tested in IIS
 			
-		g.	FEEDBACK may be send via GITHUB or info@micromys.nl	(English or Dutch please)
+		g.	FEEDBACK may be send via GITHUB	(English please)
 		
 		h.	I'M NOT RESPONSIBLE FOR ANY HARM DONE BY THIS SCRIPT TO YOUR HARDWARE and /or SOFTWARE CONFIGURATION;
 			ALL CLAIMS WILL BE REJECTED/DECLINED;
