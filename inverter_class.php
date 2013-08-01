@@ -4,7 +4,7 @@
 		
 		a.	RUNNIG THIS SCRIPT(s) IS AT YOUR OWN RISC/RESPONSIBILITY, THERE ARE NO GUARANTEES THAT THIS WILL ALSO WORK IN YOUR ENVIRONMENT
 		b.	YOU MAY FREELY CHANGE and/or DISTRIBUTED THIS SET OF SCRIPTS BUT DO NOT FORGET TO THANK ALL OTHERS WHO PARTIPATED TO MAKE THIS WORK
-		c.	ALTHOUGH I WROTE THIS SERIES OF SCRIPTS, I USED IDEAS, ALGORITHMES,etc FROM OTHER DEVELOPERS, GOOGLE, GITHUB, etc
+		c.	ALTHOUGH I WROTE THIS SERIES OF SCRIPTS, I USED IDEAS, ALGORITHMES, etc FROM OTHER DEVELOPERS, GOOGLE, GITHUB, etc
 		d.	SPECIAL CREDITS to https://github.com/Woutrrr/Omnik-Data-Logger (Wouter van de Zwan) for the python version
 		
 		e.	IF YOU PLAN TO SWAP YOUR WIFI MODULE BE VERY CAREFULL : 
@@ -13,22 +13,29 @@
 			3. 	CHECK THE ANTENNA
 			4.	SWITCH ON DC AND AC SIDE AND CHECK THE LEDS ON THE WIFI MODULE
 			5.	RE-CONFIGURE THE WIFI MODULE
-			6.	DO NOT FORGET TO UPDATE THE OMNIK-PORTAL website with your setting (new serial-numer, but same inverter ID)
+			6.	DO NOT FORGET TO UPDATE THE OMNIK-PORTAL website with your setting (new serial-number, but same inverter ID)
 			7.	YOU SHOULD NOT LOSE ANY DATA on the OMNIK_PORTAL website
 			
 		f.	THESE SCRIPTS ARE TESTED AND RUNNING IN :
 			1. 	Windows 8 with Apache 2, PHP 5.3 and MySQL 5.1
-			2.	UNIX DEBIAN WHEEZY with Apache2 (and Lighttpd), PHP 5.4 and MySQL 5.5.30 on a RASPBERRY PI model B 512Mb and a I386 PC running DEBIAN SQUEEZE with Aapche2, PHP 5.4, MySQL 5.5.30
-			3. 	you can add the script to your crontab either via php cli or 
+			2.	UNIX DEBIAN WHEEZY with Apache2 (and Lighttpd), PHP 5.4 and MySQL 5.5.30 on
+				a RASPBERRY PI model B 512Mb,
+				a i386 PC running DEBIAN SQUEEZE with Apache2, PHP 5.4, MySQL 5.5.30 and MariaDB 5.5
+				a CUBIEBOARD 1Ghz, 1GB with DEBIAN Wheezy, Apache2, PHP 5.4, MySQL 5.5.30
+			3. 	you can add the script to your unix crontab either via php cli or 
 			4.	w3m (w3m http://localhost/yourwww/inverter_sample.php >>output.html), where output (if any) is added to output.html (w3m is a text-based browser that runs from the command-line)
 			5.	crontab for windows : consider installing http://www.kalab.com/freeware/pycron/pycron.htm (looks like unix crontab) or use your task-scheduler
 			6.	Attention : Reading the 8899 port in intervals of less than 2 or 3 seconds might cause a buffer returned with only x'FF' values or other undetermined values. Normally 5 seconds or higher works fine
-			7.	MAC OS NOT EVEN TESTED, NO PLANS FOR IT AT ALL
+			7.	WARNING : Because your wifi-module also sends data to the OMNIK-PORTAL website it simotimes generates time-outs when read-request and send-request are at the same time. 
+			8.	MAC OS NOT EVEN TESTED, NO PLANS FOR IT AT ALL
+			9. 	Not tested in IIS
 			
 		g.	FEEDBACK may be send via GITHUB or info@micromys.nl	(English or Dutch please)
 		
 		h.	I'M NOT RESPONSIBLE FOR ANY HARM DONE BY THIS SCRIPT TO YOUR HARDWARE and /or SOFTWARE CONFIGURATION;
 			ALL CLAIMS WILL BE REJECTED/DECLINED;
+		
+		It is presumed that sufficient knowledge of Windows, Unix, Apache, IIS, PHP, MYSQL is available, please refer to the appropriate websites for more information 
 		
 		@COPYRIGHT : V.H. Lemoine
 		______________________________________________________________________________________________________________________________________________________
@@ -36,7 +43,7 @@
 		Info		:	This class is designed to access a OMNIK WIFI module using it's local LAN Ip-address, port 8899 and its serial-number
 				
 		Warning	: 	Currently only WIFI module's starting with serial-number 602xxxxxxx are supported, it also should have port 8899, use nmap to check
-					Also check the firmware of WIFI-module
+					Also check the firmware of WIFI-module; use the latest firmware to ensure that your wifi-module does not lose it's ip-settings
 					
 					This class is NOT TESTED for IPv6 addresses
 					
@@ -58,7 +65,7 @@
 								->	reads data from the inverter
 								->	process data into several values using the data() function
 								->	Important : stream_socket_client is used, fsockopen can also be used but has less options. Both are working in UNX ans WINDOWS
-								->	DO NOT USE socket_create, socket_open, not working properly in UNIX
+								->	DO NOT USE socket_create, socket_open, it is not working properly in UNIX
 								
 					data()		->	splits the datastream received into several parts; an array is filled as $o->PV['Datum'],$o->PV['Inverter'],$o->PV['vpv1'],etc
 								->	the $o->PV array is also converted in JSON-format and can be returned as $o->JSON
