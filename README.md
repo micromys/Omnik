@@ -6,6 +6,12 @@ PERFORMANCE ISSUE
 -----------------
 Whenever you read from the wifi module you might run into time-out conditions when also data is sent to the portal website, especially when the portal is performing poor causing long response times.
 
+Changes 2013-08-01
+------------------
+1. Bug fixes (changed trigger definition)
+2. Update inverter.sql (added create database)
+3. Documentation update
+
 Changes 2013-06-05
 ------------------
 1. BEFORE IMPLEMENTING THE NEW CLASS PLEASE UPDATE THE DATABASE TABLE, SEE inverter.sql
@@ -56,7 +62,11 @@ Do not change the filename
  
 inverter.sql
 ------------
+<<<<<<< HEAD
 Contains the database table and trigger definitions. 
+=======
+Contains the database, table(s) and trigger definitions
+>>>>>>> Update 2013-08-01
 
 Check the inline documentation before defining the tables
 
