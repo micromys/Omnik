@@ -77,7 +77,7 @@ CREATE TABLE `solar_power` (
 -- ----------------------------
 -- Records of solar_power : ADD THIS RECORD !!!!
 -- ----------------------------
-INSERT INTO `solar_power` VALUES ('OOAK', '2012-12-31 12:00:00', '1.00', '1.00', '1.00');
+INSERT INTO `solar_power` (ID,`Timestamp`,pid,pac1,todaykWh) VALUES ('OOAK', '2012-12-31 12:00:00', '1.00', '1.00', '1.00');
 
 DROP TRIGGER IF EXISTS `inverter_insert`;
 DELIMITER ;;
