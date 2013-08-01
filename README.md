@@ -56,6 +56,8 @@ Do not change the filename
  
 inverter.sql
 ------------
-Contains the database table and trigger definitions
+Contains the database table and trigger definitions. 
 
 Check the inline documentation before defining the tables
+
+Add this definition to an existing database or create your database using "create database db-name;" statement
