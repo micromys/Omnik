@@ -86,7 +86,7 @@ set new.YY=Year(curdate());
 set new.MM=Month(curdate());
 set new.DD=Day(curdate());
 set new.HH=Hour(curtime());
-insert into solar_power (ID,pac1, todaykWh, totalkWh,totalHours,temperature) values('OOAK',new.pac1,new.todaykWh,new.totalkWh,new.totalHours,new.temperature) on duplicate key update pac1=new.pac1, todaykWh=new.todaykWh,totalkWh=new.totalkWh,totalHours=new.totalHours,temperature=new.temperature;
+insert into  solar_power (ID,pac1, todaykWh, totalkWh,totalHours,temperature) values('OOAK',new.pac1,new.todaykWh,new.totalkWh,new.totalHours,new.temperature) on duplicate key update pac1=new.pac1, todaykWh=new.todaykWh,totalkWh=new.totalkWh,totalHours=new.totalHours,temperature=new.temperature;
 end
 ;;
 DELIMITER ;
