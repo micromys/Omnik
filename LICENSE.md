@@ -9,6 +9,8 @@ Although I wrote this series of scripts, I used ideas, algorithmes,etc from othe
 
 IMPORTANT : ONLY WIFI Modules with s/n 602xxxxxx support direct access thru port 8899! 
 
+UPDATE 2013-10-13 : It has been comfirmed that WIFI Modules with s/n 604xxxxxx also supports 8899.
+
 Special credits to https://github.com/woutrrr/omnik-data-logger (Wouter van de Zwan) for the python version.
 		
 If you plan to swap your WIFI module be very carefully:
