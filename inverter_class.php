@@ -87,6 +87,7 @@
 
 	*/
 
+	#[AllowDynamicProperties]
 	class Inverter
 	{
 		public		 	$bytessent		=	0;		// bytes sent to inverter
